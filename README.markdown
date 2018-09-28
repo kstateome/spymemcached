@@ -1,3 +1,5 @@
+# NOTE...
+  This is forked from https://github.com/couchbase/spymemcached.  This may not be needed after couchbase updates their library with these changes.
 # Building
 
 Spymemcached can be compiled using Apache Ant by running the following

@@ -394,7 +394,7 @@ public class DefaultConnectionFactory extends SpyObject implements
    * @see net.spy.memcached.ConnectionFactory#getKeepAlive()
    */
   public boolean getKeepAlive() {
-    return false;
+    return true;
   }
 
   /*

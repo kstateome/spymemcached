@@ -12,12 +12,12 @@
     -->
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.spy</groupId>
+    <groupId>edu.ksu.ome</groupId>
     <artifactId>spymemcached</artifactId>
-    <version>2.999.999-SNAPSHOT</version> <!-- not used -->
+    <version>2.13.0-ome-SNAPSHOT</version> <!-- not used -->
 
     <name>Spymemcached</name>
-    <description>A client library for memcached.</description>
+    <description>A client library for memcached.  This is forked from https://github.com/couchbase/spymemcached.  This may not be needed after couchbase updates their library.</description>
     <url>http://www.couchbase.org/code/couchbase/java</url>
 
     <licenses>
