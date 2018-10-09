@@ -23,18 +23,17 @@
 
 package net.spy.memcached;
 
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.util.concurrent.ExecutionException;
-
 import net.spy.memcached.internal.GetFuture;
 import net.spy.memcached.internal.OperationFuture;
-
 import net.spy.memcached.ops.OperationCallback;
 import net.spy.memcached.ops.OperationStatus;
 import net.spy.memcached.ops.StatusCode;
 import net.spy.memcached.protocol.ascii.ExtensibleOperationImpl;
 import org.junit.Test;
+
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This test assumes a server is running on the host specified in the
@@ -43,7 +42,8 @@ import org.junit.Test;
 public class AsciiClientTest extends ProtocolBaseCase {
 
   public void testBadOperation() throws Exception {
-    client.mconn.enqueueOperation("x",
+
+    client.getDelegate().mconn.enqueueOperation("x",
         new ExtensibleOperationImpl(new OperationCallback() {
           public void complete() {
             System.err.println("Complete.");
