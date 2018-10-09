@@ -28,7 +28,7 @@ public class PooledFactory implements KeyedPoolableObjectFactory {
 
     public boolean validateObject(Object o, Object o2) {
         PooledClient pooledClient = (PooledClient) o2;
-        return pooledClient.lastAccessed < (System.currentTimeMillis() - TIME_TO_LIVE);
+        return pooledClient.lastAccessed > (System.currentTimeMillis() - TIME_TO_LIVE);
 
     }
 
