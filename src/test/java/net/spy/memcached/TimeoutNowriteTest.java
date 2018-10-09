@@ -23,12 +23,12 @@
 
 package net.spy.memcached;
 
-import java.nio.ByteBuffer;
-
 import net.spy.memcached.ops.Operation;
 import net.spy.memcached.ops.OperationCallback;
 import net.spy.memcached.ops.OperationStatus;
 import net.spy.memcached.protocol.ascii.ExtensibleOperationImpl;
+
+import java.nio.ByteBuffer;
 
 /**
  * @author Matt Ingenthron <ingenthr@cep.net>
@@ -85,7 +85,7 @@ public class TimeoutNowriteTest extends ClientBaseCase {
       System.err.println("Interrupted when sleeping for timeout nowrite");
     }
 
-    client.mconn.enqueueOperation("x", op);
+    client.getDelegate().mconn.enqueueOperation("x", op);
     System.err.println("Operation attempted:");
     System.err.println(op);
     System.err.println("Trying to get:");
