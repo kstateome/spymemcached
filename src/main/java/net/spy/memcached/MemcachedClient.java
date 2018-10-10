@@ -72,7 +72,9 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -159,6 +161,8 @@ public class MemcachedClient extends SpyObject implements MemcachedClientIF,
 
   protected final ExecutorService executorService;
 
+  private final ScheduledExecutorService scheduledExecutorService;
+
   /**
    * Get a memcache client operating on the specified memcached locations.
    *
@@ -214,6 +218,8 @@ public class MemcachedClient extends SpyObject implements MemcachedClientIF,
     if (authDescriptor != null) {
       addObserver(this);
     }
+    scheduledExecutorService = Executors.newScheduledThreadPool(1);
+    scheduledExecutorService.scheduleAtFixedRate(new PingServer(this),5,5,TimeUnit.MINUTES);
   }
 
   /**
