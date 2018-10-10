@@ -12,6 +12,8 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class PingServer extends SpyObject implements Runnable {
+    private static final String EMPTY_STRING = "";
+    private static final String PRE_KEY = "key";
     MemcachedClient client;
     Map<SocketAddress, String> addressMap;
 
@@ -19,7 +21,7 @@ public class PingServer extends SpyObject implements Runnable {
         this.client = client;
         this.addressMap = new HashMap<SocketAddress, String>();
         for (MemcachedNode node : client.getNodeLocator().getAll()) {
-            addressMap.put(node.getSocketAddress(), "");
+            addressMap.put(node.getSocketAddress(), EMPTY_STRING);
         }
 
         findKeysForEachNode(client);
@@ -30,9 +32,9 @@ public class PingServer extends SpyObject implements Runnable {
         int currentNode = 0;
         while (currentNode < numberOfNodes) {
             String generatedString = getRandomString();
-            MemcachedNode node = client.getNodeLocator().getPrimary("key" + generatedString);
-            if (addressMap.get(node.getSocketAddress()).equals("")) {
-                addressMap.put(node.getSocketAddress(), "key" + generatedString);
+            MemcachedNode node = client.getNodeLocator().getPrimary(PRE_KEY + generatedString);
+            if (addressMap.get(node.getSocketAddress()).equals(EMPTY_STRING)) {
+                addressMap.put(node.getSocketAddress(), PRE_KEY + generatedString);
                 currentNode++;
             }
         }
@@ -52,9 +54,9 @@ public class PingServer extends SpyObject implements Runnable {
             try {
                 testAddress(address);
             } catch (InterruptedException e) {
-                getLogger().info("", e);
+                getLogger().info(EMPTY_STRING, e);
             } catch (ExecutionException e) {
-                getLogger().info("", e);
+                getLogger().info(EMPTY_STRING, e);
             }
         }
 
@@ -66,7 +68,5 @@ public class PingServer extends SpyObject implements Runnable {
             // do nothing..
             // this should pull the node out of the availableServer list if connections stop working.
         }
-        ;
-
     }
 }
