@@ -48,14 +48,19 @@ public class PingServer extends SpyObject implements Runnable {
 
 
     public void run() {
+
         Collection<SocketAddress> addresses = new LinkedList<SocketAddress>();
         addresses.addAll(client.getAvailableServers());
+        getLogger().info("Begin memcached check");
         for (SocketAddress address : addresses) {
             try {
+                getLogger().info("pinging:" + address.toString());
                 testAddress(address);
             } catch (InterruptedException e) {
                 getLogger().info(EMPTY_STRING, e);
             } catch (ExecutionException e) {
+                getLogger().info(EMPTY_STRING, e);
+            } catch (Exception e) {
                 getLogger().info(EMPTY_STRING, e);
             }
         }
