@@ -53,9 +53,19 @@ public class PingServer extends SpyObject implements Runnable {
         addresses.addAll(client.getAvailableServers());
         getLogger().info("Begin memcached check");
         for (SocketAddress address : addresses) {
-            try {
                 getLogger().info("pinging:" + address.toString());
                 testAddress(address);
+
+        }
+
+
+    }
+
+    private void testAddress(SocketAddress address)  {
+        boolean working = false;
+        while (client.getAvailableServers().contains(address) && !working) {
+            try {
+                working = client.set(addressMap.get(address), 10, "test").get();
             } catch (InterruptedException e) {
                 getLogger().info(EMPTY_STRING, e);
             } catch (ExecutionException e) {
@@ -63,13 +73,6 @@ public class PingServer extends SpyObject implements Runnable {
             } catch (Exception e) {
                 getLogger().info(EMPTY_STRING, e);
             }
-        }
-
-
-    }
-
-    private void testAddress(SocketAddress address) throws InterruptedException, ExecutionException {
-        while (client.getAvailableServers().contains(address) && !client.set(addressMap.get(address), 10, "test").get()) {
             // do nothing..
             // this should pull the node out of the availableServer list if connections stop working.
         }
