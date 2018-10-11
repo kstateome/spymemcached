@@ -3,12 +3,11 @@ package net.spy.memcached;
 import net.spy.memcached.compat.SpyObject;
 
 import java.net.SocketAddress;
-import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 public class PingServer extends SpyObject implements Runnable {
@@ -41,9 +40,7 @@ public class PingServer extends SpyObject implements Runnable {
     }
 
     private String getRandomString() {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        return new String(array, Charset.forName("UTF-8"));
+       return UUID.randomUUID().toString();
     }
 
 
