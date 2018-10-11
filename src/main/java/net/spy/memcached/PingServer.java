@@ -70,8 +70,6 @@ public class PingServer extends SpyObject implements Runnable {
             } catch (Exception e) {
                 getLogger().info(EMPTY_STRING, e);
             }
-            // do nothing..
-            // this should pull the node out of the availableServer list if connections stop working.
         }
     }
 }
