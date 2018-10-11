@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 public class PingServer extends SpyObject implements Runnable {
     private static final String EMPTY_STRING = "";
-    private static final String PRE_KEY = "key";
+    private static final String PRE_KEY = "spycache_";
     MemcachedClient client;
     Map<SocketAddress, String> addressMap;
 
