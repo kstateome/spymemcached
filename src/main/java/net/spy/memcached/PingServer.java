@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.UUID;
 
 import static net.spy.memcached.DefaultConnectionFactory.DEFAULT_MAX_TIMEOUTEXCEPTION_THRESHOLD;
 
@@ -115,8 +113,5 @@ public class PingServer extends SpyObject implements Runnable {
             }
         }
 
-
     }
-
-
 }
