@@ -9,7 +9,18 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.UUID;
 
+import static net.spy.memcached.DefaultConnectionFactory.DEFAULT_MAX_TIMEOUTEXCEPTION_THRESHOLD;
+
+/**
+ * This class is a Runnable that is designed to push a bit of data into
+ * each SocketAddress configured for the MemcachedClient.  This does two things.
+ * One it keeps the network connection alive to servers in which the TCP Keepalive is ignored
+ * and the connection dies. If the connection dies, it attempts to send to the node until
+ * the node is removed from the pool of available servers, or the connection works again.
+ * This will minimize user impact of network failure.
+ */
 /**
  * This class is a Runnable that is designed to push a bit of data into
  * each SocketAddress configured for the MemcachedClient.  This does two things.
@@ -87,16 +98,25 @@ public class PingServer extends SpyObject implements Runnable {
      */
     private void testAddress(SocketAddress address) {
         boolean working = false;
-        while (client.getAvailableServers().contains(address) && !working) {
+        int tries = 0;
+        while (client.getAvailableServers().contains(address) &&
+                       !working &&
+                       tries++ < DEFAULT_MAX_TIMEOUTEXCEPTION_THRESHOLD) {
+
             try {
-                working = client.set(addressMap.get(address), 10, "test").get();
-            } catch (InterruptedException e) {
+                client.get(addressMap.get(address));
+                working = true;
+            } catch (OperationTimeoutException e) {
                 getLogger().info(EMPTY_STRING, e);
-            } catch (ExecutionException e) {
+            } catch (IllegalStateException e) {
                 getLogger().info(EMPTY_STRING, e);
-            } catch (Exception e) {
+            } catch (Exception e){
                 getLogger().info(EMPTY_STRING, e);
             }
         }
+
+
     }
+
+
 }
